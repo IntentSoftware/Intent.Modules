@@ -34,17 +34,21 @@
             <param name="parameters"></param>
             <returns></returns>
         </member>
+        <member name="T:Intent.Modules.Common.CSharp.Templates.CSharpFileConfig">
+            <summary>
+            Specialization of <see cref="T:Intent.Modules.Common.Templates.TemplateFileConfig"/> for setting
+            metadata specific to C# templates.
+            </summary>
+        </member>
         <member name="M:Intent.Modules.Common.CSharp.Templates.CSharpFileConfig.#ctor(System.String,System.String,System.String,Intent.Templates.OverwriteBehaviour,System.String,System.String,System.String)">
             <summary>
             Sets the C# file configuration
             </summary>
-            <param name="className"></param>
-            <param name="namespace">namespace</param>
-            <param name="relativeLocation"></param>
-            <param name="overwriteBehaviour"></param>
-            <param name="fileName"></param>
-            <param name="fileExtension"></param>
-            <param name="dependsUpon"></param>
+        </member>
+        <member name="P:Intent.Modules.Common.CSharp.Templates.CSharpFileConfig.AutoFormat">
+            <summary>
+            C# styling automatically formatted
+            </summary>
         </member>
         <member name="M:Intent.Modules.Common.CSharp.Templates.CSharpOutputTargetExtensions.GetNamespace(Intent.Engine.IOutputTarget)">
             <summary>
@@ -64,6 +68,33 @@
             <summary>
             Returns the csproj file <see cref="T:Intent.Engine.IOutputTarget"/> that contains this file.
             </summary>
+        </member>
+        <member name="P:Intent.Modules.Common.CSharp.Templates.CSharpTemplateBase`1.Namespace">
+            <summary>
+            Returns the class' namespace as specified in the <see cref="T:Intent.Modules.Common.CSharp.Templates.CSharpFileConfig"/>. Escapes any invalid characters and enforces pascal-case.
+            May be overriden.
+            </summary>
+        </member>
+        <member name="P:Intent.Modules.Common.CSharp.Templates.CSharpTemplateBase`1.ClassName">
+            <summary>
+            Returns the class name as specified in the <see cref="T:Intent.Modules.Common.CSharp.Templates.CSharpFileConfig"/>. Escapes any invalid characters and enforces pascal-case.
+            May be overriden.
+            </summary>
+        </member>
+        <member name="M:Intent.Modules.Common.CSharp.Templates.CSharpTemplateBase`1.UseType(System.String,System.String)">
+            <summary>
+            Adds the @namespace as a dependent <see cref="!:@namespace"/> and returns the <see cref="!:name"/>
+            </summary>
+            <param name="name"></param>
+            <param name="namespace"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Intent.Modules.Common.CSharp.Templates.CSharpTemplateBase`1.UseType(System.String)">
+            <summary>
+            Adds the namespace of the <see cref="!:fullName"/> as a dependent namespace and returns the normalized name />
+            </summary>
+            <param name="fullName"></param>
+            <returns></returns>
         </member>
         <member name="M:Intent.Modules.Common.CSharp.Templates.CSharpTemplateBase`1.AddTypeSource(System.String,System.String)">
             <summary>

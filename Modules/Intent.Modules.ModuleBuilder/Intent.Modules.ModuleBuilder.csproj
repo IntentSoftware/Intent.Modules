@@ -1,15 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <Version>3.0.1</Version>
+    <Version>3.0.6</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Intent.Modules.Common.CSharp" Version="3.0.5" />
+    <PackageReference Include="Intent.Modules.Common.CSharp" Version="3.0.7" />
     <PackageReference Include="Intent.Packager" Version="3.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

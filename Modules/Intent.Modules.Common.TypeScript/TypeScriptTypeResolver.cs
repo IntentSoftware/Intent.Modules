@@ -1,13 +1,30 @@
-﻿using Intent.Metadata.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Intent.Metadata.Models;
 using Intent.Modules.Common.TypeResolution;
 
 namespace Intent.Modules.Common.TypeScript
 {
     public class TypeScriptTypeResolver : TypeResolverBase, ITypeResolver
     {
-        public override string DefaultCollectionFormat { get; set; } = "{0}[]";
 
-        protected override IResolvedTypeInfo ResolveType(ITypeReference typeInfo, string collectionFormat = null)
+        public TypeScriptTypeResolver() : base(new TypeScriptTypeResolverContext(new CollectionFormatter("{0}[]")))
+        {
+        }
+
+        protected override ITypeResolverContext CreateContext()
+        {
+            return new TypeScriptTypeResolverContext(new CollectionFormatter("{0}[]"));
+        }
+    }
+    public class TypeScriptTypeResolverContext : TypeResolverContextBase
+    {
+        protected override string FormatGenerics(IResolvedTypeInfo type, IEnumerable<IResolvedTypeInfo> genericTypes)
+        {
+            return $"{type.Name}<{string.Join(", ", genericTypes.Select(x => x.Name))}>";
+        }
+
+        protected override ResolvedTypeInfo ResolveType(ITypeReference typeInfo)
         {
             string result = null;
             bool isPrimitive = false;
@@ -53,14 +70,11 @@ namespace Intent.Modules.Common.TypeScript
                     : typeInfo.Element.Name;
             }
 
-            if (typeInfo.IsCollection)
-            {
-                result = string.Format(collectionFormat ?? DefaultCollectionFormat, result);
-                isPrimitive = false;
-            }
-
             return new ResolvedTypeInfo(result, isPrimitive, null);
         }
 
+        public TypeScriptTypeResolverContext(ICollectionFormatter defaultCollectionFormatter) : base(defaultCollectionFormatter)
+        {
+        }
     }
 }

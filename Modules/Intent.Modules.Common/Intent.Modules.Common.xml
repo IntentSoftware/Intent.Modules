@@ -4,6 +4,11 @@
         <name>Intent.Modules.Common</name>
     </assembly>
     <members>
+        <member name="T:Intent.Modules.Common.Configuration.HostingSettingsCreatedEvent">
+            <summary>
+            Subscribe to this event to be notified of hosting settings published by a Module in this application.
+            </summary>
+        </member>
         <member name="M:Intent.Modules.Common.StereotypeExtensions.GetStereotype(Intent.Metadata.Models.IHasStereotypes,System.String)">
             <summary>
             Lookup only one stereotype with a given name. If more than one is found with the same name, it fails.
@@ -40,6 +45,11 @@
             </summary>
             <param name="application"></param>
             <returns></returns>
+        </member>
+        <member name="T:Intent.Modules.Common.Registrations.ModelTemplateRegistrationBase`1">
+            <summary>
+            Use <see cref="T:Intent.Modules.Common.Registrations.FilePerModelTemplateRegistration`1"/> instead.
+            </summary>
         </member>
         <member name="T:Intent.Modules.Common.Registrations.SingleFileListModelTemplateRegistration`1">
             <summary>
@@ -78,6 +88,12 @@
             The OutputTarget of this template. This is determined by a designer with Output Targeting capabilities (e.g. Visual Studio, Folder Structure, etc.)
             </summary>
         </member>
+        <member name="M:Intent.Modules.Common.Templates.IntentTemplateBase.GetCorrelationId">
+            <summary>
+            Used to identify template outputs between software factory executions.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Intent.Modules.Common.Templates.IntentTemplateBase.AddTemplateDependency(System.String)">
             <summary>
             Adds the Template with <paramref name="templateId"/> as a dependency of this template.
@@ -107,6 +123,19 @@
             Adds the <see cref="T:Intent.Modules.Common.TypeResolution.ITypeSource"/> <paramref name="typeSource"/> as a source to find fully qualified types when using the <see cref="M:Intent.Modules.Common.Templates.IntentTemplateBase.GetTypeName(Intent.Metadata.Models.ITypeReference)"/> method.
             </summary>
             <param name="typeSource"></param>
+        </member>
+        <member name="M:Intent.Modules.Common.Templates.IntentTemplateBase.AddTypeSource(System.String,System.String)">
+            <summary>
+            Adds a Template source that will be search when resolving <see cref="T:Intent.Metadata.Models.ITypeReference"/> types through the <see cref="M:Intent.Modules.Common.Templates.IntentTemplateBase.GetTypeName(Intent.Metadata.Models.ITypeReference)"/>
+            </summary>
+            <param name="templateId"></param>
+            <param name="collectionFormat">Sets the collection type to be used if a type is found.</param>
+        </member>
+        <member name="M:Intent.Modules.Common.Templates.IntentTemplateBase.AddTypeSource(System.String)">
+            <summary>
+            Adds a Template source that will be search when resolving <see cref="T:Intent.Metadata.Models.ITypeReference"/> types through the <see cref="M:Intent.Modules.Common.Templates.IntentTemplateBase.GetTypeName(Intent.Metadata.Models.ITypeReference)"/>
+            </summary>
+            <param name="templateId"></param>
         </member>
         <member name="M:Intent.Modules.Common.Templates.IntentTemplateBase.NormalizeTypeName(System.String)">
             <summary>
@@ -147,6 +176,14 @@
             <param name="options"></param>
             <returns></returns>
         </member>
+        <member name="M:Intent.Modules.Common.Templates.IntentTemplateBase.TryGetTypeName(System.String)">
+            <summary>
+            Resolves the type name of the Template with <paramref name="templateId"/> as a string.
+            Will return null if the template instance cannot be found.
+            </summary>
+            <param name="templateId"></param>
+            <returns></returns>
+        </member>
         <member name="M:Intent.Modules.Common.Templates.IntentTemplateBase.GetTypeName(System.String,Intent.Metadata.Models.IMetadataModel,Intent.Modules.Common.Templates.TemplateDiscoveryOptions)">
             <summary>
             Resolves the type name of the Template with <paramref name="templateId"/> as a string.
@@ -158,6 +195,17 @@
             <param name="options"></param>
             <returns></returns>
         </member>
+        <member name="M:Intent.Modules.Common.Templates.IntentTemplateBase.TryGetTypeName(System.String,Intent.Metadata.Models.IMetadataModel)">
+            <summary>
+            Resolves the type name of the Template with <paramref name="templateId"/> as a string.
+            This overload assumes that the Template can have many instances and identifies the target instance
+            based on which has the <paramref name="model"/>.
+            Will return null if a template instance cannot be found.
+            </summary>
+            <param name="templateId">The unique Template identifier.</param>
+            <param name="model">The model instance that the Template must be bound to.</param>
+            <returns></returns>
+        </member>
         <member name="M:Intent.Modules.Common.Templates.IntentTemplateBase.GetTypeName(System.String,System.String,Intent.Modules.Common.Templates.TemplateDiscoveryOptions)">
             <summary>
             Resolves the type name of the Template with <paramref name="templateId"/> as a string.
@@ -167,6 +215,17 @@
             <param name="templateId">The unique Template identifier.</param>
             <param name="modelId">The identifier of the model that the Template must be bound to.</param>
             <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Intent.Modules.Common.Templates.IntentTemplateBase.TryGetTypeName(System.String,System.String)">
+            <summary>
+            Resolves the type name of the Template with <paramref name="templateId"/> as a string.
+            This overload assumes that the Template can have many instances and identifies the target instance
+            based on which has the <paramref name="modelId"/>.
+            Will return null if a template instance cannot be found.
+            </summary>
+            <param name="templateId">The unique Template identifier.</param>
+            <param name="modelId">The identifier of the model that the Template must be bound to.</param>
             <returns></returns>
         </member>
         <member name="P:Intent.Modules.Common.Templates.T4TemplateBase.GenerationEnvironment">
@@ -254,13 +313,13 @@
             Default format to use when the typeInfo.IsCollection is true;
             </summary>
         </member>
-        <member name="M:Intent.Modules.Common.TypeResolution.ITypeResolver.AddClassTypeSource(Intent.Modules.Common.TypeResolution.ITypeSource)">
+        <member name="M:Intent.Modules.Common.TypeResolution.ITypeResolver.AddTypeSource(Intent.Modules.Common.TypeResolution.ITypeSource)">
             <summary>
             Adds a default <see cref="T:Intent.Modules.Common.TypeResolution.ITypeSource"/> that is used when resolving type names of classes.
             </summary>
             <param name="typeSource"></param>
         </member>
-        <member name="M:Intent.Modules.Common.TypeResolution.ITypeResolver.AddClassTypeSource(Intent.Modules.Common.TypeResolution.ITypeSource,System.String)">
+        <member name="M:Intent.Modules.Common.TypeResolution.ITypeResolver.AddTypeSource(Intent.Modules.Common.TypeResolution.ITypeSource,System.String)">
             <summary>
             Adds an <see cref="T:Intent.Modules.Common.TypeResolution.ITypeSource"/> that is only used to resolve type names when <see cref="M:Intent.Modules.Common.TypeResolution.ITypeResolver.InContext(System.String)"/> is called for the specific <see cref="!:contextName"/>.
             </summary>
@@ -323,6 +382,29 @@
             </summary>
             <param name="typeInfo"></param>
             <param name="collectionFormat">The collection type provided if the typeInfo.IsCollection is true</param>
+            <returns></returns>
+        </member>
+        <member name="M:Intent.Modules.Common.TypeResolution.ITypeResolverContext.AddTypeSource(Intent.Modules.Common.TypeResolution.ITypeSource)">
+            <summary>
+            Adds a <see cref="T:Intent.Modules.Common.TypeResolution.ITypeSource"/> that is used when resolving information about types provided by other templates.
+            </summary>
+            <param name="typeSource"></param>
+        </member>
+        <member name="M:Intent.Modules.Common.TypeResolution.ITypeResolverContext.SetCollectionFormatter(Intent.Modules.Common.TypeResolution.ICollectionFormatter)">
+            <summary>
+            Default collection formatter to use when the typeInfo.IsCollection is true;
+            </summary>
+        </member>
+        <member name="P:Intent.Modules.Common.TypeResolution.ITypeResolverContext.TypeSources">
+            <summary>
+            Returns the list of added <see cref="T:Intent.Modules.Common.TypeResolution.ITypeSource"/>s
+            </summary>
+        </member>
+        <member name="M:Intent.Modules.Common.TypeResolution.CanBeReferencedTypeExtensions.AsTypeReference(Intent.Metadata.Models.ICanBeReferencedType)">
+            <summary>
+            Converts <see cref="T:Intent.Metadata.Models.ICanBeReferencedType"/> to type of <see cref="T:Intent.Metadata.Models.ITypeReference"/>
+            </summary>
+            <param name="type"></param>
             <returns></returns>
         </member>
         <member name="M:System.Linq.Dynamic.Core.AssemblyBuilderFactory.DefineDynamicAssembly(System.Reflection.AssemblyName,System.Reflection.Emit.AssemblyBuilderAccess)">

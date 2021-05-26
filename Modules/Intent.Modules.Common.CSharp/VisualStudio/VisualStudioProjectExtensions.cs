@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Intent.Engine;
 using Intent.Modules.Common.CSharp;
+using Intent.Modules.Common.CSharp.VisualStudio;
 using Intent.Modules.Constants;
 
 namespace Intent.Modules.Common.VisualStudio
@@ -60,8 +61,9 @@ namespace Intent.Modules.Common.VisualStudio
                     VisualStudioProjectTypeIds.ConsoleAppNetFramework,
                     VisualStudioProjectTypeIds.NodeJsConsoleApplication,
                     VisualStudioProjectTypeIds.CoreWebApp,
-                    VisualStudioProjectTypeIds.CoreCSharpLibrary
-                }.Contains(outputTarget.Type);
+                    VisualStudioProjectTypeIds.CoreCSharpLibrary,
+                    VisualStudioProjectTypeIds.SQLServerDatabaseProject
+            }.Contains(outputTarget.Type);
         }
 
         public static List<INugetPackageInfo> NugetPackages(this IOutputTarget outputTarget)
@@ -108,6 +110,11 @@ namespace Intent.Modules.Common.VisualStudio
         public static bool IsNetCore3App(this IOutputTarget outputTarget)
         {
             return outputTarget.GetSupportedFrameworks().Any(x => x.StartsWith("netcoreapp3"));
+        }
+
+        public static bool IsNet5App(this IOutputTarget outputTarget)
+        {
+            return outputTarget.GetSupportedFrameworks().Any(x => x.StartsWith("net5"));
         }
     }
 }

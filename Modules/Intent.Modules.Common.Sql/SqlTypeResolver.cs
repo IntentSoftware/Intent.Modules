@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Intent.Metadata.Models;
 using Intent.Modules.Common.TypeResolution;
@@ -7,9 +8,27 @@ namespace Intent.Modules.Common.Sql
 {
     public class SqlTypeResolver : TypeResolverBase, ITypeResolver
     {
-        public override string DefaultCollectionFormat { get; set; } = "{0}";
+        public SqlTypeResolver() : base(new SqlTypeResolverContext())
+        {
+        }
 
-        protected override IResolvedTypeInfo ResolveType(ITypeReference typeInfo, string collectionFormat = null)
+        protected override ITypeResolverContext CreateContext()
+        {
+            return new SqlTypeResolverContext();
+        }
+    }
+    public class SqlTypeResolverContext : TypeResolverContextBase
+    {
+        public SqlTypeResolverContext() : base(new CollectionFormatter("{0}"))
+        {
+        }
+
+        protected override string FormatGenerics(IResolvedTypeInfo type, IEnumerable<IResolvedTypeInfo> genericTypes)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override ResolvedTypeInfo ResolveType(ITypeReference typeInfo)
         {
             if (typeInfo == null)
             {
@@ -70,7 +89,8 @@ namespace Intent.Modules.Common.Sql
                     result = "SMALLINT";
                     break;
                 case "string":
-                    result = $"{typeInfo.GetStereotypeProperty("Text Constraints", "SQL Data Type", "NVARCHAR")}({typeInfo.GetStereotypeProperty("Text Constraints", "MaxLength", typeInfo.GetStereotypeProperty("Text Constraints", "Max Length", "MAX"))})";
+                    var type = typeInfo.GetStereotypeProperty("Text Constraints", "SQL Data Type", "NVARCHAR").Replace("DEFAULT", "NVARCHAR");
+                    result = $"{type}({typeInfo.GetStereotypeProperty("Text Constraints", "MaxLength", typeInfo.GetStereotypeProperty("Text Constraints", "Max Length", "MAX"))})";
                     break;
             }
 

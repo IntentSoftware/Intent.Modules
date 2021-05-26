@@ -1,19 +1,15 @@
 ﻿using System;
+using System.IO;
 using Intent.Engine;
 using Intent.Modules.Common.Templates;
 using Intent.Templates;
 
 namespace Intent.Modules.Common.Sql.Templates
 {
-    public abstract class SqlTemplateBase<TModel> : IntentTemplateBase<TModel>
+    public abstract class SqlTemplateBase<TModel> : IntentTemplateBase<TModel>, ISqlTemplate
     {
         protected SqlTemplateBase(string templateId, IOutputTarget outputTarget, TModel model) : base(templateId, outputTarget, model)
         {
-        }
-
-        public override void OnCreated()
-        {
-            base.OnCreated();
             Types = new SqlTypeResolver();
         }
 
@@ -25,6 +21,16 @@ namespace Intent.Modules.Common.Sql.Templates
 
             return templateOutput;
         }
+
+        public string GetExistingFile()
+        {
+            return File.Exists(GetMetadata().GetFilePath()) ? File.ReadAllText(GetMetadata().GetFilePath()) : null;
+        }
+    }
+
+    public interface ISqlTemplate
+    {
+        string GetExistingFile();
     }
 
     public class SqlFileConfig : TemplateFileConfig

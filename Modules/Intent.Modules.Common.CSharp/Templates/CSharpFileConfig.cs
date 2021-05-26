@@ -4,18 +4,15 @@ using Intent.Templates;
 
 namespace Intent.Modules.Common.CSharp.Templates
 {
+    /// <summary>
+    /// Specialization of <see cref="TemplateFileConfig"/> for setting
+    /// metadata specific to C# templates.
+    /// </summary>
     public class CSharpFileConfig : TemplateFileConfig
     {
         /// <summary>
         /// Sets the C# file configuration
         /// </summary>
-        /// <param name="className"></param>
-        /// <param name="namespace">namespace</param>
-        /// <param name="relativeLocation"></param>
-        /// <param name="overwriteBehaviour"></param>
-        /// <param name="fileName"></param>
-        /// <param name="fileExtension"></param>
-        /// <param name="dependsUpon"></param>
         public CSharpFileConfig(
             string className,
             string @namespace,
@@ -23,18 +20,38 @@ namespace Intent.Modules.Common.CSharp.Templates
             OverwriteBehaviour overwriteBehaviour = OverwriteBehaviour.Always,
             string fileName = null,
             string fileExtension = "cs",
-            string dependsUpon = null
-        )
+            string dependsUpon = null)
             : base(fileName ?? className, fileExtension, relativeLocation, overwriteBehaviour, "RoslynWeave")
         {
             CustomMetadata["ClassName"] = className ?? throw new ArgumentNullException(nameof(className));
+
             if (!string.IsNullOrWhiteSpace(@namespace))
             {
-                this.CustomMetadata["Namespace"] = @namespace;
+                CustomMetadata["Namespace"] = @namespace;
             }
+
             if (!string.IsNullOrWhiteSpace(dependsUpon))
             {
-                this.CustomMetadata["Depends On"] = dependsUpon;
+                CustomMetadata["Depends On"] = dependsUpon;
+            }
+
+            AutoFormat = true;
+        }
+
+        /// <summary>
+        /// C# styling automatically formatted
+        /// </summary>
+        public bool AutoFormat
+        {
+            get
+            {
+                var val = CustomMetadata["AutoFormat"];
+                if (string.IsNullOrEmpty(val)) { return false; }
+                return bool.Parse(val);
+            }
+            set 
+            {
+                CustomMetadata["AutoFormat"] = value.ToString();
             }
         }
     }

@@ -71,6 +71,7 @@ namespace Intent.ModuleBuilder.Api
                 OptionsSource = GetOptionsSourceEnumValue(),
                 LookupElementFunction = this.GetMappingSettings().OptionSource().IsLookupElement()
                     ? this.GetMappingSettings().LookupElementFunction() : null,
+                AutoSyncTypeReferences = this.GetMappingSettings().AutoSyncTypeReferences(),
                 LookupTypes = this.GetMappingSettings().OptionSource().IsElementsOfType()
                     ? this.GetMappingSettings().LookupTypes().Select(x => new TargetTypeOption() { SpecializationType = x.Id, DisplayText = x.Name }).ToList() : null,
                 MapFrom = GetMapFromEnumValue(),
@@ -113,5 +114,7 @@ namespace Intent.ModuleBuilder.Api
         [IntentManaged(Mode.Fully)]
         public IElement InternalElement => _element;
         public const string SpecializationTypeId = "178c2f55-9ca1-484d-be43-a91bdd5554dc";
+
+        public string Comment => _element.Comment;
     }
 }

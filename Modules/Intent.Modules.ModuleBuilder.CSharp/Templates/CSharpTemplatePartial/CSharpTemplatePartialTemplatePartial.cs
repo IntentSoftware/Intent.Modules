@@ -55,7 +55,7 @@ namespace Intent.Modules.ModuleBuilder.CSharp.Templates.CSharpTemplatePartial
 
             Project.Application.EventDispatcher.Publish(new ModuleDependencyRequiredEvent(
                 moduleId: "Intent.Common.CSharp",
-                moduleVersion: "3.0.5"));
+                moduleVersion: "3.0.10"));
             if (Model.GetDesigner() != null)
             {
                 Project.Application.EventDispatcher.Publish(new ModuleDependencyRequiredEvent(
@@ -72,7 +72,7 @@ namespace Intent.Modules.ModuleBuilder.CSharp.Templates.CSharpTemplatePartial
 
         private string GetRole()
         {
-            return Model.GetRole() ?? GetTemplateId();
+            return Model.GetRole();
         }
 
         public string GetTemplateId()
@@ -92,6 +92,16 @@ namespace Intent.Modules.ModuleBuilder.CSharp.Templates.CSharpTemplatePartial
         private string GetModelType()
         {
             return NormalizeNamespace(Model.GetModelName());
+        }
+
+        private bool IsForInterface()
+        {
+            return Model.Name.RemoveSuffix("Template").EndsWith("Interface");
+        }
+
+        private string GetClassName()
+        {
+            return $"{(IsForInterface() ? "I" : "")}{(Model.IsFilePerModelTemplateRegistration() ? $"{{Model.Name}}" : Model.Name.RemoveSuffix("Template", "Interface"))}";
         }
     }
 }
